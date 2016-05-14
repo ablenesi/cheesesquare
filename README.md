@@ -1,7 +1,7 @@
 ![alt text](https://raw.githubusercontent.com/chrisbanes/cheesesquare/master/art/icon.png)
 
-Cheesesquare Sample
-===================================
+Cheesesquare Sample - with FAB shared element transition
+========================================================
 
 Demos the new Android Design library. This is not an exhaustive sample, but shows
 some of the important features in the Design library:

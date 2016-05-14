@@ -62,4 +62,16 @@ public class CheeseDetailActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.sample_actions, menu);
         return true;
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

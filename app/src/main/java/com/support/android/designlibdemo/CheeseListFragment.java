@@ -16,12 +16,14 @@
 
 package com.support.android.designlibdemo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.TextViewCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -51,7 +53,7 @@ public class CheeseListFragment extends Fragment {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
-                getRandomSublist(Cheeses.sCheeseStrings, 30)));
+                getRandomSublist(Cheeses.sCheeseStrings, 30), getActivity().findViewById(R.id.fab)));
     }
 
     private List<String> getRandomSublist(String[] array, int amount) {
@@ -69,6 +71,8 @@ public class CheeseListFragment extends Fragment {
         private final TypedValue mTypedValue = new TypedValue();
         private int mBackground;
         private List<String> mValues;
+        private View mFab;
+        private Context mContext;
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             public String mBoundString;
@@ -90,14 +94,12 @@ public class CheeseListFragment extends Fragment {
             }
         }
 
-        public String getValueAt(int position) {
-            return mValues.get(position);
-        }
-
-        public SimpleStringRecyclerViewAdapter(Context context, List<String> items) {
+        public SimpleStringRecyclerViewAdapter(Context context, List<String> items, View fab) {
+            mContext = context;
             context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
             mBackground = mTypedValue.resourceId;
             mValues = items;
+            mFab = fab;
         }
 
         @Override
@@ -118,9 +120,9 @@ public class CheeseListFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, CheeseDetailActivity.class);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, new Pair<>(mFab, "profile"));
                     intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
-
-                    context.startActivity(intent);
+                    context.startActivity(intent, options.toBundle());
                 }
             });
 
